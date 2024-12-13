@@ -15,9 +15,10 @@ A chatbot application built using Flask, designed to provide interactive convers
    git clone https://github.com/cerencelik25/ChatBot.git
    cd ChatBot
 2.Create a Virtual Environment:
-
+   ```bash
     python3 -m venv venv
     source venv/bin/activate   # On Windows: venv\Scripts\activate
-3.Install Dependencies:
 
+3.Install Dependencies:
+    ```bash
     pip install -r requirements.txt
