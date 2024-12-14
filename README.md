@@ -1,4 +1,5 @@
 Automatic Generation of Visualizations and Infographics using Large Language Models (LLMs)
+
 📖 Project Summary
 This project aims to develop a platform that makes data analysis and visualization accessible to non-technical users. The platform features a Flask backend and a frontend built with HTML, JavaScript, and CSS. Users can upload datasets (Excel, CSV), ask questions in natural language, and receive automatically generated visualizations (e.g., charts, graphs) and insights using Large Language Models (LLMs).
 
