@@ -1,44 +1,44 @@
 {% extends "base.html" %}
-{% block title %}Upload Files{% endblock %}
+
 {% block content %}
+  <h2>Upload a File</h2>
 
-<!-- Upload Section -->
-<div class="container mt-5">
-    <h1 class="text-center">Upload Your File</h1>
-    <p class="text-center">Select a file to upload for analysis and visualization.</p>
-    
-    <form method="POST" enctype="multipart/form-data" class="mt-4">
-        <div class="form-group text-center">
-            <label for="file" class="btn btn-primary btn-lg">Choose File</label>
-            <input type="file" name="file" id="file" class="form-control-file" style="display: none;" required>
-            <span id="file-chosen" class="ml-2">No file chosen</span>
-        </div>
-        <div class="text-center mt-3">
-            <button type="submit" class="btn btn-success btn-lg">Upload</button>
-        </div>
-    </form>
-    
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="mt-4">
-                <ul class="list-group">
-                {% for category, message in messages %}
-                    <li class="list-group-item list-group-item-{{ category }}">{{ message }}</li>
-                {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-    {% endwith %}
-</div>
+  <form id="upload-form" enctype="multipart/form-data">
+    <input type="file" id="file-input" name="file" required>
+    <button type="submit">Upload</button>
+  </form>
 
-<script>
-    const fileInput = document.getElementById('file');
-    const fileChosen = document.getElementById('file-chosen');
+  <div id="upload-message" style="margin-top: 20px;"></div>
 
-    fileInput.addEventListener('change', function() {
-        fileChosen.textContent = this.files[0] ? this.files[0].name : 'No file chosen';
+  <script>
+    document.getElementById('upload-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData();
+      const fileInput = document.getElementById('file-input');
+      formData.append('file', fileInput.files[0]);
+
+      try {
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const result = await response.json();
+        const messageDiv = document.getElementById('upload-message');
+
+        if (response.ok) {
+          messageDiv.innerHTML = `<p style="color: green;">${result.message}</p>`;
+          // Redirect to visualize page after successful upload
+          setTimeout(() => {
+            window.location.href = '/visualize';
+          }, 2000);
+        } else {
+          messageDiv.innerHTML = `<p style="color: red;">Error: ${result.error}</p>`;
+        }
+      } catch (error) {
+        document.getElementById('upload-message').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+      }
     });
-</script>
-
+  </script>
 {% endblock %}
