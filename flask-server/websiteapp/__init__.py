@@ -74,8 +74,8 @@ def create_app():
     def inject_user():
         return dict(user=current_user)
 
-    # Enable CORS
-    CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+    
+    CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True) # Enable CORS
 
     # Create the database if it doesn't exist
     create_database(app)
